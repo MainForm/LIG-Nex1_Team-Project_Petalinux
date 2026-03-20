@@ -1,17 +1,12 @@
-# Zybo Z7-10 Yocto Build Workspace
+# [LIG Nex1] PetaLinux Team Project
 
-This repository contains a Yocto-based build workspace for the Digilent
-Zybo Z7-10 board using AMD EDF as the base environment.
+This repository provides the PetaLinux build environment for the LIG Nex1 team project on the Zybo Z7-10 platform.
 
-The workspace combines:
-
-- `AMD_EDF/`
-  The AMD Embedded Design Framework checkout managed with `repo`
-- `sources/meta-zybo-z7-10/`
-  A custom board support layer for Zybo Z7-10, tracked as a git submodule
-- `build_zybo-z7-10/`
-  The build directory configured for the Zybo Z7-10 target
-
+## Features
+1. PetaLinux is built using the Yocto Project workflow.
+2. Docker support is enabled in this PetaLinux environment.
+3. The system uses `systemd` as the init system.
+4. The Linux image includes support for the ipTIME A3000 Mini Wi-Fi dongle.
 
 ## Repository Layout
 
