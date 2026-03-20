@@ -1,0 +1,91 @@
+meta-docker-config
+==================
+
+This layer contains small Yocto customizations for Docker-based images.
+It currently focuses on boot-time service behavior by:
+
+- removing `systemd-networkd-wait-online.service`
+- installing a simplified `docker.service`
+- enabling the Docker service automatically at image creation time
+
+
+Dependencies
+============
+
+This layer declares the following formal dependency in
+`conf/layer.conf`:
+
+- `core`
+
+In practice, the Docker recipe append in this layer is only useful when the
+build also includes a layer that provides `docker-moby`, such as
+`meta-virtualization`.
+
+This layer is compatible with the `scarthgap` Yocto release series.
+
+
+Contents
+========
+
+- `conf/layer.conf`
+  Registers the layer, its file search paths, priority, and compatibility.
+
+- `recipes-core/systemd/systemd_%.bbappend`
+  Removes `systemd-networkd-wait-online.service` and its enablement symlink
+  during installation so the image no longer blocks boot waiting for
+  `systemd-networkd` to report the network as online.
+
+- `recipes-docker-config/docker-moby/docker-moby_%.bbappend`
+  Adds a custom `docker.service`, registers it with systemd packaging, and
+  enables it by default in the generated image.
+
+- `recipes-docker-config/docker-moby/files/docker.service`
+  Overrides the Docker unit dependency ordering so Docker starts after
+  `network.target` and `containerd.service` instead of waiting for
+  `network-online.target`.
+
+
+Behavior
+========
+
+The service customizations in this layer are intended for systems where:
+
+- Docker should start automatically on boot
+- waiting for full network-online synchronization is unnecessary or slows boot
+- the board uses a simpler network bring-up sequence
+
+The installed Docker unit uses:
+
+- `After=network.target containerd.service`
+- `Wants=containerd.service`
+- `ExecStart=/usr/bin/dockerd -H fd://`
+- `Restart=always`
+
+Because `systemd-networkd-wait-online.service` is removed, services should not
+assume that an interface has a lease or external connectivity at the moment
+`multi-user.target` is reached. This is usually acceptable for Docker on
+embedded systems, but it is worth validating if your containers depend on
+network availability during early boot.
+
+
+Adding The Layer
+================
+
+Add the layer to your build:
+
+`bitbake-layers add-layer ../sources/meta-docker-config`
+
+Then ensure your build also includes the layer that provides `docker-moby`
+and that your image installs Docker.
+
+
+Notes
+=====
+
+- This layer does not provide the Docker engine recipe itself; it only
+  customizes recipes supplied by other layers.
+- If another layer also modifies `docker.service` or the systemd install
+  stage, review layer priority and final packaged unit contents carefully.
+- If your platform requires strict boot-time network readiness, you may want
+  to keep `systemd-networkd-wait-online.service` enabled instead of using this
+  layer as-is.

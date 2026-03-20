@@ -1,0 +1,13 @@
+[Unit]
+Description=Docker Application Container Engine
+
+# network-online 제거
+After=network.target containerd.service
+Wants=containerd.service
+
+[Service]
+ExecStart=/usr/bin/dockerd -H fd://
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
