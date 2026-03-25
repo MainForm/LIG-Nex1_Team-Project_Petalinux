@@ -133,3 +133,6 @@ sudo bmaptool copy ./build_zybo-z7-10/tmp/deploy/images/zybo-z7-10/petalinux-ima
 - `build_zybo-z7-10/conf/` contains the active local build configuration.
 - The AMD EDF workspace may generate `.repo/` metadata; this is workspace
   state, not board support metadata.
+- Before developing a device driver or building an out-of-tree kernel module
+  on the target, prepare the kernel source tree with:
+  `cd /usr/src/kernel && make scripts prepare modules_prepare`
