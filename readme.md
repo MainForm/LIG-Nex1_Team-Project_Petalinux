@@ -123,7 +123,7 @@ sde      8:64  1  29.7G  0 disk
 └─sde1   8:65  1  29.7G  0 part /media/user/SDCARD
 
 # In this example, the SD card appears as /dev/sde, so that device is used below.
-sudo bmaptool copy ./build_zybo-z7-10/tmp/deploy/images/zybo-z7-10/petalinux-image-minimal-zybo-z7-10.wic /dev/sde --nobmap
+sudo bmaptool copy ./build_zybo-z7-10/tmp/deploy/images/zybo-z7-10/petalinux-image-minimal-zybo-z7-10.wic /dev/sde
 ```
 
 ## Notes
