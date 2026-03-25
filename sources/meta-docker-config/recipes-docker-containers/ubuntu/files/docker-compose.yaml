@@ -1,0 +1,11 @@
+services:
+  ubuntu:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ubuntu:22.04-minimal
+    container_name: ubuntu2204
+    stdin_open: true
+    tty: true
+    working_dir: /workspace
+    command: /bin/bash
