@@ -36,6 +36,8 @@
 AMD_EDF
 zybo-z7-10_BSP
 
+.codex
+
 # Yocto/PetaLinux build artifacts
 build*/**
 !build*/conf/
