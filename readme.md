@@ -26,13 +26,18 @@ AMD EDF is based on the Xilinx `yocto-manifests` workflow and uses the
 
 Install the required host packages for the Yocto build environment:
 ```bash
-sudo apt install build-essential chrpath cpio debianutils diffstat file gawk gcc git iputils-ping libacl1 liblz4-tool locales python3 python3-git python3-jinja2 python3-pexpect python3-pip python3-subunit socat texinfo unzip wget xz-utils zstd
+sudo apt install build-essential chrpath cpio debianutils diffstat file gawk gcc git iputils-ping libacl1 liblz4-tool locales python3 python3-git python3-jinja2 python3-pexpect python3-pip python3-subunit socat texinfo unzip wget xz-utils zstd libtinfo5
 ```
 
 Make sure the `en_US.UTF-8` locale is available:
 ```bash
 locale --all-locales | grep en_US.utf8
-````
+```
+
+If `en_US.UTF-8` is not available, generate it with:
+```bash
+sudo locale-gen en_US.UTF-8
+```
 
 If you run into issues while preparing the host environment, refer to the
 [Yocto Project system requirements documentation](https://docs.yoctoproject.org/scarthgap/ref-manual/system-requirements.html).
@@ -58,6 +63,13 @@ Initialize the Zybo Z7-10 layer submodule:
 
 ```bash
 git submodule update --init --recursive
+```
+
+
+Make sure your Git user name and email are configured:
+```bash
+git config --global user.name "Name"
+git config --global user.email test@email.com
 ```
 
 
@@ -89,6 +101,10 @@ bitbake petalinux-image-minimal
 
 Use `bitbake -e virtual/kernel` or `bitbake -e device-tree` to confirm the
 selected kernel and device tree configuration when debugging board bring-up.
+
+If you are building under WSL and see a `no reply from server in 30s` error,
+increase the WSL memory allocation to at least 16 GB before retrying the
+build.
 
 ## Install Linux
 
