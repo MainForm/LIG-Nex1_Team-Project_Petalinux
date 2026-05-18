@@ -4,3 +4,6 @@
 [submodule "sources/meta-rtlwifi"]
 	path = sources/meta-rtlwifi
 	url = https://github.com/EmbeddedAndroid/meta-rtlwifi.git
+[submodule "sources/meta-zybo-bridge"]
+	path = sources/meta-zybo-bridge
+	url = https://github.com/JunhoLeeee/meta-zybo-bridge.git
