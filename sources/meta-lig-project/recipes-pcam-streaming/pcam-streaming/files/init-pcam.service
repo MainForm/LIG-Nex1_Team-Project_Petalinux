@@ -1,0 +1,12 @@
+[Unit]
+Description=Initialize PCAM video pipeline
+After=systemd-udev-settle.service
+Wants=systemd-udev-settle.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/init_pcam.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
